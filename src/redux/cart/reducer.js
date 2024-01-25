@@ -8,8 +8,39 @@ const initialState = {
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case CartActionTypes.ADD_PRODUCT:
-      return { ...state, products: [...state.products, action.payload] };
+      //verificar se o produto ja existe no carrinho
+      const productIsAlreadyInCart = state.products.some(
+        (product) => product.id === action.payload.id
+      );
 
+      //se estiver no carrinho, aumentar a quantidade
+      if (productIsAlreadyInCart) {
+        return {
+          ...state,
+          products: state.products.map((product) =>
+            product.id === action.payload.id
+              ? { ...product, quantity: product.quantity + 1 }
+              : product
+          ),
+        };
+      }
+      //se nao estiver no carrinho, adicionar o produto
+
+      return {
+        ...state,
+        products: [...state.products, { ...action.payload, quantity: 1 }],
+      };
+
+    case CartActionTypes.REMOVE_PRODUCT:
+      //remover o produto do carrinho
+      const updatedProducts = state.products.filter(
+        (product) => product.id !== action.payload
+      );
+
+      return {
+        ...state,
+        products: updatedProducts,
+      };
     default:
       return state;
   }
