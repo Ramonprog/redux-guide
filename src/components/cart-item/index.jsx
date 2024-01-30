@@ -5,6 +5,7 @@ import * as Styles from "./styles";
 import {
   removeProductFromCart,
   increaseProductQuantity,
+  decreaseProductQuantity,
 } from "../../redux/cart/actions";
 
 const CartItem = ({ product }) => {
@@ -18,7 +19,9 @@ const CartItem = ({ product }) => {
     dispatch(increaseProductQuantity(product.id));
   };
 
-  const handleDecreaseClick = () => {};
+  const handleDecreaseClick = () => {
+    dispatch(decreaseProductQuantity(product.id));
+  };
 
   return (
     <Styles.CartItemContainer>
