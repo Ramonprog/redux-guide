@@ -41,6 +41,16 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         products: updatedProducts,
       };
+
+    case CartActionTypes.INCREASE_PRODUCT_QUANTITY:
+      return {
+        ...state,
+        products: state.products.map((product) =>
+          product.id === action.payload
+            ? { ...product, quantity: product.quantity + 1 }
+            : product
+        ),
+      };
     default:
       return state;
   }
